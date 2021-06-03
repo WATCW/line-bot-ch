@@ -37,7 +37,7 @@ function handleTextMessage(event){
         text: 'hello from bot.'
     }
 
-    return client.replyMessage(event.replyToken, msg);
+    return client.replyMessage(event.replyToken, event);
 }
 
 //get method
