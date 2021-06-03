@@ -5,7 +5,6 @@ require('dotenv').config();
 
 //declare express
 const app = express();
-const port = process.env.PORT || 8080;
 
 //declare config 
 const config = {
@@ -46,4 +45,8 @@ app.get('/health', (req,res) => res.sendStatus(200).json({
   status: 'OK'
 }));
 
-app.listen(port);
+app.set('port', (process.env.PORT || 8080));
+
+app.listen(app.get('port'), function () {
+    console.log('run at port', app.get('port'));
+});
