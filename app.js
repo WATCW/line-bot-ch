@@ -52,11 +52,11 @@ function handleTextMessage(event){
         }
       ];
 
-      const oData = data.map(c => ({
+      const oData = {
         "thumbnailImageUrl": '',
           "imageBackgroundColor": "#FFFFFF",
-          "title": `PM 2.5: ${c.id}`,
-          "text": `${c.name}`,
+          "title": `PM 2.5: xxxxx`,
+          "text": `xxxxxxx`,
           "actions": [
             {
               "type": "uri",
@@ -64,7 +64,7 @@ function handleTextMessage(event){
               "uri": 'https://www.google.com'
             }
           ]
-      }));
+      };
 
       var msg = {
         "type": "template",
