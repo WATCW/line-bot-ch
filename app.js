@@ -39,6 +39,47 @@ function handleEvent(event){
 }
 
 function handleTextMessage(event){
+
+    if(event.message.text=='mock.location'){
+
+        var data = [{
+            name: 'name',
+            id: 'id.----xx--'
+        }, 
+        {
+            name: 'name2',
+            id: 'id.2--xx----'
+        }
+      ];
+
+      const oData = data.map(c => ({
+        "thumbnailImageUrl": '',
+          "imageBackgroundColor": "#FFFFFF",
+          "title": `PM 2.5: ${c.id}`,
+          "text": `${c.name}`,
+          "actions": [
+            {
+              "type": "uri",
+              "label": "ข้อมูลย้อนหลัง",
+              "uri": 'https://www.google.com'
+            }
+          ]
+      }));
+
+      var msg = {
+        "type": "template",
+        "altText": "ข้อมูลสถานที่",
+        "template": {
+          "type": "carousel",
+          "columns": oData,
+          "imageAspectRatio": "rectangle",
+          "imageSize": "cover"
+        }
+      }
+
+        return client.replyMessage(event.replyToken, msg);
+    }
+
     var msg = {
         type: 'text',
         text: JSON.stringify(event.source)
