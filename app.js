@@ -3,4 +3,9 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.post('/webhook', (req,res) =>  res.sendStatus(200));
+
+app.get('health', (req,res) => res.sendStatus(200).json({
+  status: 'OK'
+}));
+
 app.listen(port);
