@@ -42,7 +42,8 @@ function handleTextMessage(event){
 
 //get method
 app.get('/health', (req,res) => res.sendStatus(200).json({
-  status: 'OK'
+      status : 'OK',
+      message: 'Service is avaliable.'
 }));
 
 app.set('port', (process.env.PORT || 8080));
