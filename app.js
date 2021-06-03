@@ -33,11 +33,11 @@ function handleEvent(event){
 
 function handleTextMessage(event){
     var msg = {
-    //         type: 'text',
-    //         text: 'hello from bot.'
+        type: 'text',
+        text: JSON.stringify(event.source)
     }
 
-    return client.replyMessage(event.replyToken, JSON.stringify(event));
+    return client.replyMessage(event.replyToken, msg);
 }
 
 //get method
