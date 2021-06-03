@@ -4,7 +4,7 @@ const port = process.env.PORT || 8080;
 
 app.post('/webhook', (req,res) =>  res.sendStatus(200));
 
-app.get('health', (req,res) => res.sendStatus(200).json({
+app.get('/health', (req,res) => res.sendStatus(200).json({
   status: 'OK'
 }));
 
