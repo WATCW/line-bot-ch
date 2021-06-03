@@ -78,8 +78,7 @@ function handleTextMessage(event){
       }
 
         return client.replyMessage(event.replyToken, msg);
-    }
-
+    }else{
     var msg = {
         type: 'text',
         text: JSON.stringify(event.source)
@@ -87,7 +86,7 @@ function handleTextMessage(event){
 
     return client.replyMessage(event.replyToken, msg);
 }
-
+}
 //get method
 app.get('/health', (req,res) => res.sendStatus(200).json({
       status : 'OK',
