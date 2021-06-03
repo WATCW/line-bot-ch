@@ -6,11 +6,18 @@ require('dotenv').config();
 //declare express
 const app = express();
 
+const myLiffId = process.env.MY_LIFF_ID;
+app.use(express.static('public'));
+
 //declare config 
 const config = {
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
     channelSecret: process.env.CHANNEL_SECRET
 }
+
+app.get('/send-id', function(req, res) {
+    res.json({id: myLiffId});
+});
 
 //declare client
 const client = new line.Client(config);
