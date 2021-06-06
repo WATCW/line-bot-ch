@@ -40,6 +40,131 @@ function handleEvent(event){
 
 function handleTextMessage(event){
 
+    var msg2 = {
+        "type": "bubble",
+        "styles": {
+          "footer": {
+            "backgroundColor": "#42b3f4"
+          }
+        },
+        "header": {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "contents": [
+                {
+                  "type": "icon",
+                  "size": "xxl",
+                  "url": "https://scontent.fbkk7-2.fna.fbcdn.net/v/t1.0-1/p200x200/22814542_1962234637127047_1607260544847069468_n.png?_nc_cat=0&oh=2a303227c24dfab9e71a405b6d594d50&oe=5BC3965D"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 5,
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "โรงพยาบาลอ่างทอง",
+                  "weight": "bold",
+                  "color": "#aaaaaa",
+                  "size": "md",
+                  "gravity": "top"
+                },
+                {
+                  "type": "text",
+                  "text": "ขอขอบพระคุณ",
+                  "weight": "bold",
+                  "color": "#aaaaaa",
+                  "size": "lg",
+                  "gravity": "top"
+                }
+              ]
+            }
+          ]
+        },
+        "hero": {
+          "type": "image",
+          "url": "https://scontent.fbkk7-2.fna.fbcdn.net/v/t1.0-9/35076722_2227987830551725_330757188106584064_n.jpg?_nc_cat=0&oh=0f5fa137c5bd65f109a40439afcd59eb&oe=5BB566B6",
+          "size": "full",
+          "aspectRatio": "16:9",
+          "aspectMode": "cover",
+          "action": {
+            "type": "uri",
+            "uri": "http://bit.ly/2JGBRKv"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "margin": "sm",
+              "text": "คุณกานต์สินี ไหลสงวนงาม",
+              "weight": "bold",
+              "size": "md",
+              "wrap": true
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "margin": "xs",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "baseline",
+                  "spacing": "sm",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "บริจาคเงินจำนวน ๑๘๐,๐๐๐ บาท เพื่อซื้อครุภัณฑ์ทางการแพทย์ ใช้ในโรงพยาบาลอ่างทอง โดยมีนายแพทย์พงษ์นรินทร์ ชาติรังสรรค์ผู้อำนวยการโรงพยาบาลอ่างทอง เป็นผู้รับมอบ",
+                      "wrap": true,
+                      "color": "#666666",
+                      "size": "sm",
+                      "flex": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "margin": "md",
+              "text": "วันที่ 12 มิ.ย. 2561",
+              "size": "sm",
+              "color": "#adadad"
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "button",
+              "style": "link",
+              "color": "#FFFFFF",
+              "height": "sm",
+              "action": {
+                "type": "uri",
+                "label": "อ่านต่อ...",
+                "uri": "http://bit.ly/2JGBRKv"
+              }
+            }
+          ]
+        }
+      };
+
+    if(event.message.text == 'msg'){
+        return client.replyMessage(event.replyToken, msg2);
+    }  
+
     if(event.message.text=='mock.location'){
 
         var data = [{
