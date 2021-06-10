@@ -34,7 +34,7 @@ function handleEvent(event){
     if(event.type==='message' && event.message.type==='text'){
         handleTextMessage(event);
     }else{
-        return Promise.resolve(null);
+        return Promise.resolve(event);
     }
 }
 
