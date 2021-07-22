@@ -1,6 +1,7 @@
 const express  = require('express');
 const line = require('@line/bot-sdk');
 const mongodb = require("./app/db/mongoDB");
+const mongoose = require('mongoose');
 //setup config
 require('dotenv').config();
 
@@ -212,6 +213,7 @@ async function handleTextMessage(event){
     }
 
     await connectDb();
+    await dynamicModel("collections");
     return client.replyMessage(event.replyToken, msg);
 }
 }
@@ -229,6 +231,19 @@ async function connectDb() {
   catch (err) {
     console.log(err);
   }
+}
+
+
+ async function dynamicModel(suffix) {
+    var Schema = mongoose.Schema;
+      var addressSchema = new Schema(
+          {
+               "name" : {type: String, default: '',trim: true},
+               "login_time" : {type: Date},
+               "location" : {type: String, default: '',trim: true},
+          }
+  );
+     return mongoose.model('user_' + suffix, addressSchema);
 }
 
 //get method
