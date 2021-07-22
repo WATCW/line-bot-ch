@@ -235,7 +235,7 @@ async function connectDb() {
 
 
  async function dynamicModel(suffix) {
-    await mongodb.connection.db.createCollection(suffix, (err) => {
+    await mongodb.db.createCollection(suffix, (err) => {
     if(err){
       console.log('error')
     }
