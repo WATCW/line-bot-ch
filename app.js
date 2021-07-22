@@ -1,7 +1,7 @@
 const express  = require('express');
 const line = require('@line/bot-sdk');
 const mongodb = require("./app/db/mongoDB");
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 //setup config
 require('dotenv').config();
 
@@ -235,15 +235,13 @@ async function connectDb() {
 
 
  async function dynamicModel(suffix) {
-    var Schema = mongoose.Schema;
-      var addressSchema = new Schema(
-          {
-               "name" : {type: String, default: '',trim: true},
-               "login_time" : {type: Date},
-               "location" : {type: String, default: '',trim: true},
-          }
-  );
-     return mongoose.model('user_' + suffix, addressSchema);
+    await mongodb.connection.db.createCollection(suffix, (err) => {
+    if(err){
+      console.log('error')
+    }
+
+    console.log('success collection created.')
+  });
 }
 
 //get method
