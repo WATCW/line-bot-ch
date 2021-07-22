@@ -30,17 +30,17 @@ app.post('/webhook', line.middleware(config), (req,res) => {
     .then((result)=> res.json(result));        
 });
 
-function handleEvent(event){
+async function handleEvent(event){
     console.log(event);
     if(event.type==='message' && event.message.type==='text'){
-        handleTextMessage(event);
+        await handleTextMessage(event);
     }else{
         return Promise.resolve(event);
     }
     return Promise.resolve(event);
 }
 
-function handleTextMessage(event){
+async function handleTextMessage(event){
 
     var msg2 = {
         "type": "bubble",
