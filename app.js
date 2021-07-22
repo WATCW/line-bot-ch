@@ -1,5 +1,6 @@
 const express  = require('express');
 const line = require('@line/bot-sdk');
+const mongodb = require("./app/db/mongoDB");
 //setup config
 require('dotenv').config();
 
@@ -210,9 +211,26 @@ function handleTextMessage(event){
         text: JSON.stringify(event.source)
     }
 
+    await connectDb();
     return client.replyMessage(event.replyToken, msg);
 }
 }
+
+
+async function connectDb() {
+  try {
+    await mongodb.connectToMongoDB().then((result) => {
+     console.log(result);
+    }).catch((error) => {
+      console.log('Error connect db');
+      throw new Error(error.message);
+    });
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
 //get method
 app.get('/health', (req,res) => res.sendStatus(200).json({
       status : 'OK',
