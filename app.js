@@ -168,7 +168,11 @@ async function handleTextMessage(event){
     if(event.message.text == 'p::10'){
           await connectDb();
         let mmsg = await mongodb.findBookStoreByPrice(event.message.text.split('::')[1]);
-        return client.replyMessage(event.replyToken, mmsg);
+        var msg = {
+          type: 'text',
+          text: mmsg
+      }
+        return client.replyMessage(event.replyToken, msg);
     }  
 
     if(event.message.text=='mock.location'){
