@@ -58,7 +58,7 @@ var method = {
     },
     checkCollectionExists: function (collectionName){
         return new Promise((resolve)=>{
-            mongoose.db.listCollections({name: collectionName})
+            mongoose.connection.db.listCollections({name: collectionName})
             .next(function(err, collinfo) {
                 if (collinfo) {
                     console.log("Collection exist");
