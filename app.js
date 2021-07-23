@@ -235,13 +235,24 @@ async function connectDb() {
 
 
  async function dynamicModel(suffix) {
-    await mongodb.db.createCollection(suffix, (err) => {
-    if(err){
-      console.log('error')
-    }
-
-    console.log('success collection created.')
-  });
+   
+  const testSchema = new Schema({
+    name: String,
+    age: Number
+  })
+  
+  const Test = mongodb.model('test', testSchema)
+  
+  const test = new Test({ name: 'Billy', age: 31 })
+  
+  await mongodb.once('connected', function (err) {
+    if (err) { return console.error(err) }
+    Test.create(test, function (err, doc) {
+      if (err) { return console.error(err) }
+      console.log(doc)
+      return mongodb.close()
+    }) 
+  })
 }
 
 //get method
