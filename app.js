@@ -35,11 +35,11 @@ app.post('/webhook', line.middleware(config), (req,res) => {
 async function handleEvent(event){
     console.log(event);
     if(event.type==='message' && event.message.type==='text'){
-        await handleTextMessage(event);
+        let resp = await handleTextMessage(event);
     }else{
         return Promise.resolve(event);
     }
-    return Promise.resolve(event);
+    return Promise.resolve(resp);
 }
 
 async function handleTextMessage(event){
