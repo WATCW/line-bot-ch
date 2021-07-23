@@ -71,6 +71,7 @@ var method = {
    },
    findBookStoreByPrice:function (prices){
     try {
+        return new Promise((resolve)=>{
            mongoose.connection.db.collection("bookstore", function (err, collection) {
                if (err) {
                    console.log(err)
@@ -90,7 +91,8 @@ var method = {
                     });
                    
                 });
-               }catch (e) {
+            });
+        }catch (e) {
             console.log(e);
         }
    }
