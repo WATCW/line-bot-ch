@@ -78,14 +78,14 @@ var method = {
             mongoose.connection.db.collection("bookstore", function(err, collection){
                 if(err){
                     console.log(err)
-                   return resolve(err);
+                   resolve(err);
                 }
-                collection.find(qry).toArray(function(err, data){
+                collection.find({"price": price}).toArray(function(err, data){
                     if(err){
                         console.log(err); 
                     }
                    console.log(data); 
-                   return resolve(data);
+                  resolve(data);
                 })
             });
        });
