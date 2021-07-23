@@ -79,13 +79,15 @@ var method = {
             var qry = {
                 "price": price
             };
+            console.log('collection');
+            console.log(collection);
             collection.find(qry).toArray(function(err, data){
                 if(err){
                     console.log(err)
-                    resolve(data);
+                    //resolve(data);
                 }
                 console.log(data)
-                resolve(data);
+                //resolve(data);
             })
         });
        });
