@@ -71,25 +71,19 @@ var method = {
    },
    findBookStoreByPrice:function (price){
        return new Promise((resolve) => {
-        mongoose.connection.db.collection("bookstore", function(err, collection){
-            if(err){
-                console.log(err)
-                resolve(err);
-            }
             var qry = {
                 "price": price
             };
-            console.log('collection');
-            console.log(collection);
-            collection.find(qry).toArray(function(err, data){
+         
+            mongoose.connection.db.collection("bookstore", function(err, collection){
                 if(err){
                     console.log(err)
-                    return resolve(data);
+                   return resolve(err);
                 }
-                console.log(data)
-                return resolve(data);
-            })
-        });
+                collection.find({}).toArray(function(err, data){
+                    console.log(data); 
+                })
+            });
        });
    }
 }
