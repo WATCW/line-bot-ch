@@ -72,15 +72,18 @@ var method = {
        return new Promise((resolve) => {
         mongoose.connection.db.collection("bookstore", function(err, collection){
             if(err){
+                console.log(err)
                 resolve(err);
             }
             var qry = {
                 "price": price
             };
-            collection.find(JSON.stringify(qry)).toArray(function(err, data){
+            collection.find(qry).toArray(function(err, data){
                 if(err){
+                    console.log(err)
                     resolve(data);
                 }
+                console.log(data)
                 resolve(data);
             })
         });
