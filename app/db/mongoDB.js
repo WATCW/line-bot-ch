@@ -69,27 +69,29 @@ var method = {
             }); 
     });
    },
-   findBookStoreByPrice:function (price){
+   findBookStoreByPrice:function (prices){
        return new Promise((resolve) => {
-        mongoose.connection.db.collection("bookstore", function(err, collection){
-            if(err){
-                console.log(err)
-                resolve(err);
-            }
-            var qry = {
-                "price": price
-            };
-            //console.log('collection');
-            //console.log(collection);
-            collection.find({}).toArray(function(err, data){
-                if(err){
-                    console.log(err)
-                    return resolve(data);
-                }
-                console.log(data)
-                return resolve(data);
-            })
-        });
+           mongoose.connection.db.collection("bookstore", function (err, collection) {
+               if (err) {
+                   console.log(err)
+                   resolve(err);
+               }
+               var qry = {
+                   price: prices
+               }
+               try {
+                   collection.find(qry).toArray(function (err, data) {
+                       if (err) {
+                           console.log(err)
+                           return resolve(data);
+                       }
+                       console.log(data)
+                       return resolve(data);
+                   });
+               } catch (e) {
+                   console.log(e);
+               }
+           });
        });
    }
 }
