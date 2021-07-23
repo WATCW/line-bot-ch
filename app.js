@@ -1,7 +1,8 @@
 const express  = require('express');
 const line = require('@line/bot-sdk');
 const mongodb = require("./app/db/mongoDB");
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema
 //setup config
 require('dotenv').config();
 
