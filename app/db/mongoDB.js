@@ -80,8 +80,12 @@ var method = {
                     console.log(err)
                    return resolve(err);
                 }
-                collection.find({}).toArray(function(err, data){
-                    console.log(data); 
+                collection.find(qry).toArray(function(err, data){
+                    if(err){
+                        console.log(err); 
+                    }
+                   console.log(data); 
+                   return resolve(data);
                 })
             });
        });
