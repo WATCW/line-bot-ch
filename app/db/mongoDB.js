@@ -86,7 +86,7 @@ var method = {
                            //return resolve(data);
                        }
                        console.log(data)
-                       //return resolve(data);
+                       resolve(data[0]);
                    });
                } catch (e) {
                    console.log(e);
