@@ -58,20 +58,14 @@ var method = {
     },
     checkCollectionExists: function (collectionName){
         return new Promise((resolve)=>{
-            mongoose.db.listCollections().toArray(function (err, names) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    for (i = 0; i < names.length; i++) {
-                        console.log(names[i].name);
-                        if ((names[i].name = collectionName)) {
-                            console.log("Userprofile Collection Exists in DB");
-                        } else {
-                            console.log("Collection doesn't exist");
-                        }
-                    }
+            mongoose.db.listCollections({name: collectionName})
+            .next(function(err, collinfo) {
+                if (collinfo) {
+                    console.log("Collection exist");
+                }else {
+                    console.log("Collection doesn't exist");
                 }
-            });
+            }); 
     });
 }
 }
