@@ -62,6 +62,7 @@ var method = {
             .next(function(err, collinfo) {
                 if (collinfo) {
                     console.log("Collection exist");
+                    console.log(collinfo);
                 }else {
                     console.log("Collection doesn't exist");
                 }
