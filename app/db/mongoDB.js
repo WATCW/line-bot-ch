@@ -84,10 +84,10 @@ var method = {
             collection.find(qry).toArray(function(err, data){
                 if(err){
                     console.log(err)
-                    //resolve(data);
+                    return resolve(data);
                 }
                 console.log(data)
-                //resolve(data);
+                return resolve(data);
             })
         });
        });
