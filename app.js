@@ -172,7 +172,7 @@ async function handleTextMessage(event){
           type: 'text',
           text: JSON.stringify(mmsg)
       }
-        return client.replyMessage(event.replyToken, msg);
+        return client.replyMessage(event.replyToken, msg, true);
     }  
 
     if(event.message.text=='mock.location'){
