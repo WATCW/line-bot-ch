@@ -2,6 +2,7 @@ const express  = require('express');
 const line = require('@line/bot-sdk');
 const mongodb = require("./app/db/mongoDB");
 const mongoose = require('mongoose');
+const flexm = require('./app/template/flexmessage');
 const Schema = mongoose.Schema
 //setup config
 require('dotenv').config();
@@ -166,6 +167,8 @@ async function handleTextMessage(event){
       };
 
     if(event.message.text == 'p::10'){
+          let ms_flex = flexm.flexMessageTemplate();
+          console.log(ms_flex);
           await connectDb();
         let mmsg = await mongodb.findBookStoreByPrice(event.message.text.split('::')[1]);
         var msg = {
