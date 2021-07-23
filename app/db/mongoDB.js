@@ -80,7 +80,7 @@ var method = {
                    price: prices
                }
                try {
-                   collection.find(qry).toArray(function (err, data) {
+                   collection.find({}).toArray(function (err, data) {
                        if (err) {
                            console.log(err)
                            //return resolve(data);
