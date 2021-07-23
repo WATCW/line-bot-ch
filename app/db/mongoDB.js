@@ -77,7 +77,7 @@ var method = {
             var qry = {
                 "price": price
             };
-            collection.find(qry).toArray(function(err, data){
+            collection.find(JSON.stringify(qry)).toArray(function(err, data){
                 if(err){
                     resolve(data);
                 }
