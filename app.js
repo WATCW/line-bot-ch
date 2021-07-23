@@ -166,6 +166,7 @@ async function handleTextMessage(event){
       };
 
     if(event.message.text == 'p::10'){
+          await connectDb();
         let mmsg = await mongodb.findBookStoreByPrice(event.message.text);
         return client.replyMessage(event.replyToken, mmsg);
     }  
