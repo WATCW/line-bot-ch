@@ -74,8 +74,10 @@ var method = {
             if(err){
                 resolve(err);
             }
-
-            collection.find({}).toArray(function(err, data){
+            var qry = {
+                "price": price
+            };
+            collection.find(qry).toArray(function(err, data){
                 if(err){
                     resolve(data);
                 }
