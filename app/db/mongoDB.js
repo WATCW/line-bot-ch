@@ -33,6 +33,28 @@ var method = {
                 resolve(console.log("==== MongoDB Connection is Closed ===="));
             });
         });
+    },
+    createCollection: function(collection, model){
+        return new Promise((resolve) => {
+            // define Schema
+            var dbSchema = mongoose.Schema({
+                name: String,
+                price: Number,
+                quantity: Number
+            });
+
+            // compile schema to model
+            var DbModel = mongoose.model('Book', dbSchema, 'bookstore');
+
+            // a document instance
+            var book1 = new DbModel({ name: 'Introduction to Mongoose', price: 10, quantity: 25 });
+
+            // save model to database
+            book1.save(function (err, book) {
+                if (err) return console.error(err);
+                console.log(book.name + " saved to bookstore collection.");
+            });
+        });
     }
 }
 
