@@ -87,7 +87,7 @@ var method = {
                            //return resolve(data);
                        }
                        console.log(data)
-                       return data[0];
+                       resolve(data[0]);
                     });
                    
                 });
