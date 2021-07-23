@@ -170,7 +170,7 @@ async function handleTextMessage(event){
         let mmsg = await mongodb.findBookStoreByPrice(event.message.text.split('::')[1]);
         var msg = {
           type: 'text',
-          text: mmsg
+          text: JSON.stringify(mmsg)
       }
         return client.replyMessage(event.replyToken, msg);
     }  
