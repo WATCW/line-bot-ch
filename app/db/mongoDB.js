@@ -55,6 +55,18 @@ var method = {
                 console.log(book.name + " saved to bookstore collection.");
             });
         });
+    },
+    checkCollectionExists: function (collectionName){
+        return new Promise((resolve)=>{
+            mongoose.connection.listCollections.toArray(function (err, collectionNames) {
+                  if (err) {
+                    console.log(err);
+                    return;
+                  }
+                    console.log(collectionNames);
+                    conn.close();
+                });
+            });
     }
 }
 

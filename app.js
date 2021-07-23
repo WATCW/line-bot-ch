@@ -214,7 +214,8 @@ async function handleTextMessage(event){
     }
 
     await connectDb();
-    await dynamicModel("collections");
+    //await dynamicModel("collections");
+    await mongodb.checkCollectionExists("bookstore");
     return client.replyMessage(event.replyToken, msg);
 }
 }
