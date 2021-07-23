@@ -70,29 +70,29 @@ var method = {
     });
    },
    findBookStoreByPrice:function (prices){
-       return new Promise((resolve) => {
+    try {
            mongoose.connection.db.collection("bookstore", function (err, collection) {
                if (err) {
                    console.log(err)
-                   resolve(err);
+                   return err;
                }
                var qry = {
                    price: prices
                }
-               try {
-                   collection.find({}).toArray(function (err, data) {
+              
+              collection.find({}).toArray(function (err, data) {
                        if (err) {
                            console.log(err)
                            //return resolve(data);
                        }
                        console.log(data)
-                       resolve(data[0]);
-                   });
-               } catch (e) {
-                   console.log(e);
-               }
-           });
-       });
+                       return data[0];
+                    });
+                   
+                });
+               }catch (e) {
+            console.log(e);
+        }
    }
 }
 
