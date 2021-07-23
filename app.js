@@ -36,6 +36,9 @@ async function handleEvent(event){
     console.log(event);
     if(event.type==='message' && event.message.type==='text'){
         await handleTextMessage(event);
+    }else if(event.message.text=='p:10'){
+      let mmsg = await mongodb.findBookStoreByPrice(event.message.text);
+      return client.replyMessage(event.replyToken, mmsg);
     }else{
         return Promise.resolve(event);
     }

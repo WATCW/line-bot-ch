@@ -67,7 +67,23 @@ var method = {
                 }
             }); 
     });
-}
+   },
+   findBookStoreByPrice:function (price){
+       return new Promise((resolve) => {
+        mongoose.connection.db.collection("bookstore", function(err, collection){
+            if(err){
+                resolve(err);
+            }
+
+            collection.find({}).toArray(function(err, data){
+                if(err){
+                    resolve(data);
+                }
+                resolve(data);
+            })
+        });
+       });
+   }
 }
 
 module.exports = method;
