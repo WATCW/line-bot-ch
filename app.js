@@ -35,11 +35,11 @@ app.post('/webhook', line.middleware(config), (req,res) => {
 async function handleEvent(event){
     console.log(event);
     if(event.type==='message' && event.message.type==='text'){
-        let resp = await handleTextMessage(event);
+       await handleTextMessage(event);
     }else{
         return Promise.resolve(event);
     }
-    return Promise.resolve(resp);
+    return Promise.resolve(event);
 }
 
 async function handleTextMessage(event){
@@ -217,6 +217,7 @@ async function handleTextMessage(event){
 
     await connectDb();
     //await dynamicModel("collections");
+    console.log('not do this')
     await mongodb.checkCollectionExists("bookstore");
     return client.replyMessage(event.replyToken, msg);
 }
