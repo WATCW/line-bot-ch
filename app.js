@@ -4,9 +4,10 @@ const mongodb = require("./app/db/mongoDB");
 const mongoose = require('mongoose');
 const flexm = require('./app/template/flexmessage');
 const dotenv = require('dotenv');
-const morgan = require('morgan');
-const bodyparser = require("body-parser");
 
+const bodyparser = require("body-parser");
+//use hbs view engine
+const hbs = require('hbs');
 const path = require('path');
 
 const Schema = mongoose.Schema
@@ -38,6 +39,10 @@ app.post('/webhook', line.middleware(config), (req,res) => {
     .all(req.body.events.map(handleEvent))
     .then((result)=> res.json(result));        
 });
+
+
+
+
 
 async function handleEvent(event){
     console.log(event);
@@ -130,28 +135,15 @@ async function connectDb() {
 }
 
 
- async function dynamicModel(suffix) {
-  await mongodb.createCollection('','');
-}
+ //set views file
+app.set('views',path.join(__dirname,'views'));
+//set view engine
+app.set('view engine', 'hbs');
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
+//set folder public as static folder for static file
+app.use('/assets',express.static(__dirname + '/public'));
 
-//get method
-// app.get('/health', (req,res) => res.sendStatus(200).json({
-//       status : 'OK',
-//       message: 'Service is avaliable.'
-// }));
-
-app.use(morgan('tiny'));
-// parse request to body-parser
-app.use(bodyparser.urlencoded({ extended : true}));
-
-// set view engine
-app.set("view engine", "ejs")
-//app.set("views", path.resolve(__dirname, "views/ejs"))
-
-// load assets
-app.use('/css', express.static(path.resolve(__dirname, "assets/css")))
-app.use('/img', express.static(path.resolve(__dirname, "assets/img")))
-app.use('/js', express.static(path.resolve(__dirname, "assets/js")))
 
 // load routers
 app.use('/', require('./app/routes/route'))

@@ -11,6 +11,7 @@ var schema = new mongoose.Schema({
         required: true,
     },
     quantity : Number,
+    lastBuyDate : String,
     updateDate : String
 })
 
