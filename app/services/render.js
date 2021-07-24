@@ -5,7 +5,8 @@ exports.homeRoutes = (req, res) => {
     //Make a get request to /api/items
     axios.get('https://line-bot-ch.herokuapp.com/api/items')
         .then(function(response){
-            res.render('product_view', { item : response });
+            console.log(response.data)
+            res.render('product_view',{response: response.data});
         })
         .catch(err =>{
             res.send(err);
