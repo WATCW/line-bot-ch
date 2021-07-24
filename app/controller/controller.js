@@ -15,13 +15,13 @@ exports.create = (req,res)=>{
         quantity: req.body.quantity,
         lastBuyDate: req.body.lastBuyDate
     })
-
+console.log('do create.')
     // save user in the database
     stock
         .save(stock)
         .then(data => {
             //res.send(data)
-            res.redirect('/add-item');
+            res.redirect('/');
         })
         .catch(err =>{
             res.status(500).send({

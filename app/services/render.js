@@ -15,6 +15,7 @@ exports.homeRoutes = (req, res) => {
 }
 
 exports.add_item = (req, res) =>{
+    console.log('do add_item')
     res.render('product_view');
 }
 
