@@ -14,7 +14,7 @@ route.get('/', services.homeRoutes);
  *  @description add item
  *  @method GET /add-item
  */
-route.get('/add-item', services.add_item)
+route.get('/add-items', services.add_item)
 
 /**
  *  @description for update user
@@ -24,7 +24,7 @@ route.get('/add-item', services.add_item)
 
 
 // API
-route.post('/api/items', controller.create);
+route.post('/api/add-items', controller.create);
 route.get('/api/items', controller.find);
 //route.put('/api/items/:id', controller.update);
 //route.delete('/api/items/:id', controller.delete);
