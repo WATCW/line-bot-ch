@@ -14,51 +14,58 @@
     <table class="table table-striped" id="mytable">
       <thead>
         <tr>
-          <th>Product ID</th>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Action</th>
+          <th>รหัส</th>
+          <th>ชื่อผลิตภัณฑ์</th>
+          <th>จำนวนคงเหลือ</th>
+          <th>ซื้อล่าสุด</th>
         </tr>
       </thead>
       <tbody>
-         {{#each results}}
+         {{#each item}} 
         <tr>
-          <td>{{ product_id }}</td>
-          <td>{{ product_name }}</td>
-          <td>{{ product_price }}</td>
+          <td>{{ itemId }}</td>
+          <td>{{ itemName }}</td>
+          <td>{{ quantity }}</td>
+          <td>{{ lastBuyDate }}</td>
           <td>
-            <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id="{{ product_id }}" data-product_name="{{ product_name }}" data-product_price="{{ product_price }}">Edit</a>
-            <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ product_id }}">Delete</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-itemId="{{ itemId }}" data-itemName="{{ itemName }}" data-quantity="{{ quantity }}" data-lastBuyDate="{{ lastBuyDate }}">แก้ไข</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-itemId="{{ itemId }}">ลบ</a>
           </td>
         </tr>
         {{/each}}
       </tbody>
     </table>
+    	<button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">เพิ่มสินค้า</button>
   </div>
 
 	<!-- Add New Product Modal-->
-	  <form action="/save" method="post">
+	  <form action="//add-item" method="post">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
              <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+               <h5 class="modal-title" id="exampleModalLabel">เพิ่มรายการสินค้าใหม่</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                  <span aria-hidden="true">&times;</span>
                </button>
              </div>
              <div class="modal-body">
                <div class="form-group">
-                   <input type="text" name="product_name" class="form-control" placeholder="Product Name" required>
+                   <input type="text" name="itemId" class="form-control" placeholder="รหัส" required>
                </div>
-
                <div class="form-group">
-                   <input type="text" name="product_price" class="form-control" placeholder="Price" required>
+                   <input type="text" name="itemName" class="form-control" placeholder="ชื่อผลิตภัณฑ์" required>
+               </div>
+               <div class="form-group">
+                   <input type="text" name="quantity" class="form-control" placeholder="จำนวนคงเหลือ" required>
+               </div>
+               <div class="form-group">
+                   <input type="text" name="lastBuyDate" class="form-control" placeholder="ซื้อล่าสุด" required>
                </div>
              </div>
              <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save</button>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+               <button type="submit" class="btn btn-primary">บันทีก</button>
              </div>
            </div>
          </div>

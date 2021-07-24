@@ -14,9 +14,9 @@ exports.homeRoutes = (req, res) => {
     //res.render('index', { users : '' });
 }
 
-// exports.add_item = (req, res) =>{
-//     res.render('add_item');
-// }
+exports.add_item = (req, res) =>{
+    res.render('product_view');
+}
 
 // exports.update_user = (req, res) =>{
 //     axios.get('https://line-bot-ch.herokuapp.com/api/items', { params : { id : req.query.id }})

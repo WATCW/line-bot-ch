@@ -56,6 +56,14 @@ var method = {
             });
         });
     },
+    createCollection: function(model){
+        return new Promise((resolve) => {
+            model.save(function (err, book) {
+                if (err) return console.error(err);
+                console.log(book.name + " saved collection.");
+            });
+        });
+    },
     checkCollectionExists: function (collectionName){
         return new Promise((resolve)=>{
             mongoose.connection.db.listCollections({name: collectionName})

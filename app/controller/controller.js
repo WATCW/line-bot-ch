@@ -13,7 +13,7 @@ exports.create = (req,res)=>{
         itemId : req.body.itemId,
         itemName : req.body.itemName,
         quantity: req.body.quantity,
-        updateDate : req.body.lastUpdateDate,
+        lastBuyDate: req.body.lastBuyDate
     })
 
     // save user in the database
@@ -55,13 +55,13 @@ connectDb();
         StockDb.findById(id)
             .then(data =>{
                 if(!data){
-                    res.status(404).send({ message : "Not found user with id "+ id})
+                    res.status(404).send({ message : "Not found item with id "+ id})
                 }else{
                     res.send(data)
                 }
             })
             .catch(err =>{
-                res.status(500).send({ message: "Erro retrieving user with id " + id})
+                res.status(500).send({ message: "Erro retrieving item with id " + id})
             })
 
     }else{
@@ -70,7 +70,7 @@ connectDb();
                 res.send(i)
             })
             .catch(err => {
-                res.status(500).send({ message : err.message || "Error Occurred while retriving user information" })
+                res.status(500).send({ message : err.message || "Error Occurred while retriving item information" })
             })
     }
 
