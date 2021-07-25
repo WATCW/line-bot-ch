@@ -21,7 +21,7 @@ console.log('do create.')
         .save(stock)
         .then(data => {
             //res.send(data)
-            done(null, data);
+            //done(null, data);
             res.redirect('/');
         })
         .catch(err =>{
