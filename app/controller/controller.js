@@ -1,5 +1,6 @@
 var StockDb = require('../model/stockItem');
 const mongodb = require("../db/mongoDB");
+const util = require("../util/utils");
 // create and save new user
 exports.create = (req,res)=>{
     // validate request
@@ -13,7 +14,7 @@ exports.create = (req,res)=>{
         itemId : req.body.itemId,
         itemName : req.body.itemName,
         quantity: req.body.quantity,
-        lastBuyDate: req.body.lastBuyDate
+        lastBuyDate: util.getCurrentDate()
     })
 console.log('do create.')
     // save user in the database

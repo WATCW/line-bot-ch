@@ -16,7 +16,7 @@
         <tr>
           <th>รหัส</th>
           <th>ชื่อผลิตภัณฑ์</th>
-          <th>จำนวนคงเหลือ</th>
+          <th>คงเหลือ</th>
           <th>ซื้อล่าสุด</th>
         </tr>
       </thead>
@@ -28,10 +28,10 @@
           <td>{{ itemName }}</td>
           <td>{{ quantity }}</td>
           <td>{{ lastBuyDate }}</td>
-          <td>
+          {{!-- <td>
             <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-itemId="{{ itemId }}" data-itemName="{{ itemName }}" data-quantity="{{ quantity }}" data-lastBuyDate="{{ lastBuyDate }}">แก้ไข</a>
             <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-itemId="{{ itemId }}">ลบ</a>
-          </td>
+          </td> --}}
         </tr>
         {{/each}}
       </tbody>
@@ -60,9 +60,9 @@
                <div class="form-group">
                    <input type="text" name="quantity" class="form-control" placeholder="จำนวนคงเหลือ" required>
                </div>
-               <div class="form-group">
+               {{!-- <div class="form-group">
                    <input type="text" name="lastBuyDate" class="form-control" placeholder="ซื้อล่าสุด" required>
-               </div>
+               </div> --}}
              </div>
              <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
