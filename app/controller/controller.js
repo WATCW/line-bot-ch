@@ -21,9 +21,11 @@ console.log('do create.')
         .save(stock)
         .then(data => {
             //res.send(data)
+            done(null, data);
             res.redirect('/');
         })
         .catch(err =>{
+            console.log(err);
             res.status(500).send({
                 message : err.message || "Some error occurred while creating a create operation"
             });
