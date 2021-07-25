@@ -61,7 +61,7 @@
                    <input type="text" name="quantity" class="form-control" placeholder="จำนวนคงเหลือ" required>
                </div>
                <div class="form-group">
-                   <input type="text" name="lastBuyDate" class="form-control" id="datepicker">
+                   <input type="text" name="lastBuyDate" class="form-control" placeholder="ซื้อล่าสุด" required>
                </div>
              </div>
              <div class="modal-footer">
@@ -127,8 +127,6 @@
 
 <script src="/assets/js/jquery-3.3.1.js"></script>
 <script src="/assets/js/bootstrap.js"></script>
-<script src="/assets/js/bootstrap-datepicker.js"></script>
-
 <script>
     $(document).ready(function(){
 			//showing data to modal for edit record
@@ -146,18 +144,9 @@
         var product_id = $(this).data('id');
         $('#DeleteModal').modal('show');
         $('.product_id2').val(product_id);
-
       });
-       $('input#datepicker.form-control').datepicker({dateFormat: "mm/dd/yyyy", beforeShow: function () {
-           $(".ui-datepicker").css('font-size', 12)
-       }});
+
     });
-   
 </script>
- <style type="text/css">
-.ui-datepicker-calendar tr, .ui-datepicker-calendar td, .ui-datepicker-calendar td a, .ui-datepicker-calendar th{font-size:inherit;}
-div.ui-datepicker{font-size:16px;width:inherit;height:inherit;}
-.ui-datepicker-title span{font-size:16px;}
-</style>
 </body>
 </html>
