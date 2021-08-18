@@ -94,15 +94,69 @@ async function handleTextMessage(event){
       };
 
       var msg = {
-        "type": "template",
-        "altText": "ข้อมูลสถานที่",
-        "template": {
-          "type": "carousel",
-          "columns": oData,
-          "imageAspectRatio": "rectangle",
-          "imageSize": "cover"
-        }
+        "type": "carousel",
+        "contents": [
+          {
+            "type": "bubble",
+            "body": {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  "wrap": true
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "button",
+                  "style": "primary",
+                  "action": {
+                    "type": "uri",
+                    "label": "Go",
+                    "uri": "https://example.com"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "bubble",
+            "body": {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Hello, World!",
+                  "wrap": true
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "button",
+                  "style": "primary",
+                  "action": {
+                    "type": "uri",
+                    "label": "Go",
+                    "uri": "https://example.com"
+                  }
+                }
+              ]
+            }
+          }
+        ]
       }
+      
 
         return client.replyMessage(event.replyToken, msg);
     }else{
