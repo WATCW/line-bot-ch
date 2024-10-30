@@ -1,209 +1,79 @@
-const express  = require('express');
-const line = require('@line/bot-sdk');
-const mongodb = require("./app/db/mongoDB");
-const mongoose = require('mongoose');
-const flexm = require('./app/template/flexmessage');
-const dotenv = require('dotenv');
+const express = require("express");
+const multer = require("multer");
+const axios = require("axios");
+const fs = require("fs");
 
-const bodyparser = require("body-parser");
-//use hbs view engine
-const hbs = require('hbs');
-const path = require('path');
-
-const Schema = mongoose.Schema
-//setup config
-require('dotenv').config();
-
-//declare express
 const app = express();
+const PORT = process.env.PORT || 3000;
+const LINE_CHANNEL_ACCESS_TOKEN = "YOUR_LINE_CHANNEL_ACCESS_TOKEN";  // Set your actual access token here
 
-const myLiffId = process.env.MY_LIFF_ID;
-//app.use(express.static('public'));
+// Configure multer for file uploads
+const upload = multer({ dest: "uploads/" });
 
-//declare config 
-const config = {
-    channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.CHANNEL_SECRET
-}
-
-app.get('/send-id', function(req, res) {
-    res.json({id: myLiffId});
-});
-
-//declare client
-const client = new line.Client(config);
-
-//post method
-app.post('/webhook', line.middleware(config), (req,res) => {
-    Promise
-    .all(req.body.events.map(handleEvent))
-    .then((result)=> res.json(result));        
-});
-
-
-
-
-
-async function handleEvent(event){
-    console.log(event);
-    if(event.type==='message' && event.message.type==='text'){
-       await handleTextMessage(event);
-    }else{
-        return Promise.resolve(event);
-    }
-    return Promise.resolve(event);
-}
-
-async function handleTextMessage(event){
-    if(event.message.text == 'p::10'){
-          let ms_flex = flexm.flexMessageTemplate();
-          console.log(ms_flex);
-          await connectDb();
-        let mmsg = await mongodb.findBookStoreByPrice(event.message.text.split('::')[1]);
-        var msg = {
-          type: 'flex',
-          text: JSON.stringify(mmsg)
-      }
-        return client.replyMessage(event.replyToken, ms_flex, true);
-    }  
-
-    if(event.message.text=='mock.location'){
-
-        var data = [{
-            name: 'name',
-            id: 'id.----xx--'
-        }, 
-        {
-            name: 'name2',
-            id: 'id.2--xx----'
-        }
-      ];
-
-      const oData = {
-        "thumbnailImageUrl": '',
-          "imageBackgroundColor": "#FFFFFF",
-          "title": `PM 2.5: xxxxx`,
-          "text": `xxxxxxx`,
-          "actions": [
-            {
-              "type": "uri",
-              "label": "ข้อมูลย้อนหลัง",
-              "uri": 'https://www.google.com'
-            }
-          ]
-      };
-
-      var msg = {
-        "type": "carousel",
-        "contents": [
-          {
-            "type": "bubble",
-            "body": {
-              "type": "box",
-              "layout": "horizontal",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                  "wrap": true
-                }
-              ]
-            },
-            "footer": {
-              "type": "box",
-              "layout": "horizontal",
-              "contents": [
-                {
-                  "type": "button",
-                  "style": "primary",
-                  "action": {
-                    "type": "uri",
-                    "label": "Go",
-                    "uri": "https://example.com"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "bubble",
-            "body": {
-              "type": "box",
-              "layout": "horizontal",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "Hello, World!",
-                  "wrap": true
-                }
-              ]
-            },
-            "footer": {
-              "type": "box",
-              "layout": "horizontal",
-              "contents": [
-                {
-                  "type": "button",
-                  "style": "primary",
-                  "action": {
-                    "type": "uri",
-                    "label": "Go",
-                    "uri": "https://example.com"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-      
-
-        return client.replyMessage(event.replyToken, msg);
-    }else{
-    var msg = {
-        type: 'text',
-        text: JSON.stringify(event.source)
+app.post("/send-image", upload.single("image"), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "No image file uploaded" });
     }
 
-    await connectDb();
-    //await dynamicModel("collections");
-    console.log('not do this')
-    await mongodb.checkCollectionExists("bookstore");
-    return client.replyMessage(event.replyToken, msg);
-}
-}
+    try {
+        const imageBuffer = fs.readFileSync(req.file.path);
+        const base64Image = imageBuffer.toString("base64");
 
+        const lineMessage = {
+            messages: [
+                {
+                    type: "flex",
+                    altText: "Payment Slip Received",
+                    contents: {
+                        type: "bubble",
+                        hero: {
+                            type: "image",
+                            url: `data:image/jpeg;base64,${base64Image}`,
+                            size: "full",
+                            aspectRatio: "20:13",
+                            aspectMode: "cover",
+                        },
+                        body: {
+                            type: "box",
+                            layout: "vertical",
+                            contents: [
+                                {
+                                    type: "text",
+                                    text: "Payment Slip",
+                                    weight: "bold",
+                                    size: "xl",
+                                    align: "center"
+                                },
+                                {
+                                    type: "text",
+                                    text: "Thank you for your payment!",
+                                    color: "#666666",
+                                    size: "sm",
+                                    align: "center"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        };
 
-async function connectDb() {
-  try {
-    await mongodb.connectToMongoDB().then((result) => {
-     console.log(result);
-    }).catch((error) => {
-      console.log('Error connect db');
-      throw new Error(error.message);
-    });
-  }
-  catch (err) {
-    console.log(err);
-  }
-}
+        await axios.post(`https://api.line.me/v2/bot/message/reply`, lineMessage, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
+            },
+        });
 
+        res.json({ message: "Payment slip sent successfully to LINE!" });
+    } catch (error) {
+        console.error("Error sending image:", error);
+        res.status(500).json({ message: "Error sending image" });
+    } finally {
+        fs.unlinkSync(req.file.path);
+    }
+});
 
- //set views file
-app.set('views',path.join(__dirname,'views'));
-//set view engine
-app.set('view engine', 'hbs');
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: false }));
-//set folder public as static folder for static file
-app.use('/assets',express.static(__dirname + '/public'));
-
-
-// load routers
-app.use('/', require('./app/routes/route'))
-
-app.set('port', (process.env.PORT || 8080));
-
-app.listen(app.get('port'), function () {
-    console.log('run at port', app.get('port'));
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
