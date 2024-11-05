@@ -10,7 +10,7 @@ const LINE_CHANNEL_ACCESS_TOKEN = "YOUR_LINE_CHANNEL_ACCESS_TOKEN";  // Set your
 // Configure multer for file uploads
 const upload = multer({ dest: "uploads/" });
 
-app.post("/"), async (req, res) => {
+app.post("/", async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: "No image file uploaded" });
     }
