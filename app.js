@@ -10,6 +10,10 @@ const LINE_CHANNEL_ACCESS_TOKEN = "YOUR_LINE_CHANNEL_ACCESS_TOKEN";  // Set your
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + 'public/index.html')
+})
+
 
 // Configure multer for file uploads
 const upload = multer({ dest: "uploads/" });
