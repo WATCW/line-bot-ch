@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 const upload = multer({ dest: "uploads/" });
 
 // Upload endpoint
-app.post("/upload", upload.single("image"), async (req, res) => {
+app.post("/upload", async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: "No image file uploaded" });
     }
