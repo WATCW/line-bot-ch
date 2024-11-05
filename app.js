@@ -2,15 +2,20 @@ const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
 const fs = require("fs");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const LINE_CHANNEL_ACCESS_TOKEN = "YOUR_LINE_CHANNEL_ACCESS_TOKEN";  // Set your actual access token here
 
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, "public")));
+
 // Configure multer for file uploads
 const upload = multer({ dest: "uploads/" });
 
-app.post("/", async (req, res) => {
+// Upload endpoint
+app.post("/upload", upload.single("image"), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: "No image file uploaded" });
     }
@@ -58,7 +63,7 @@ app.post("/", async (req, res) => {
             ]
         };
 
-        await axios.post(`https://api.line.me/v2/bot/message/reply`, '', {
+        await axios.post(`https://api.line.me/v2/bot/message/reply`, lineMessage, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
@@ -70,10 +75,11 @@ app.post("/", async (req, res) => {
         console.error("Error sending image:", error);
         res.status(500).json({ message: "Error sending image" });
     } finally {
-        fs.unlinkSync(req.file.path);
+        fs.unlinkSync(req.file.path); // Remove the uploaded file after processing
     }
 });
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
