@@ -10,7 +10,7 @@ const LINE_CHANNEL_ACCESS_TOKEN = "YOUR_LINE_CHANNEL_ACCESS_TOKEN";  // Set your
 // Configure multer for file uploads
 const upload = multer({ dest: "uploads/" });
 
-app.post("/send-image", upload.single("image"), async (req, res) => {
+/*app.post("/send-image", upload.single("image"), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: "No image file uploaded" });
     }
@@ -57,8 +57,8 @@ app.post("/send-image", upload.single("image"), async (req, res) => {
                 }
             ]
         };
-
-        await axios.post(`https://api.line.me/v2/bot/message/reply`, lineMessage, {
+*/
+        await axios.post(`https://api.line.me/v2/bot/message/reply`, '', {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
