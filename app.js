@@ -20,6 +20,7 @@ const upload = multer({ dest: "uploads/" });
 
 // Upload endpoint
 app.post("/send-image", (req, res, next) => {
+   
     // Use upload middleware directly in route to check for multer configuration issues
     upload.single("image")(req, res, async (err) => {
         if (err) {
@@ -30,11 +31,12 @@ app.post("/send-image", (req, res, next) => {
         }
 
         try {
-            const imageBuffer = fs.readFileSync(req.file.path);
-            const base64Image = imageBuffer.toString("base64");
+           
+            const fullPath = path.join(__dirname, 'uploads', req.file.filename);
+
 
             const lineMessage = {
-                replyToken: replyToken,
+                to: "U9422e4a072f0ccf595537299bf39a769",
                 messages: [
                     {
                         type: "flex",
@@ -43,7 +45,7 @@ app.post("/send-image", (req, res, next) => {
                             type: "bubble",
                             hero: {
                                 type: "image",
-                                url: `data:image/jpeg;base64,${base64Image}`,
+                                url: `https://www.linefriends.com/img/img_sec.jpg`,
                                 size: "full",
                                 aspectRatio: "20:13",
                                 aspectMode: "cover",
@@ -74,7 +76,7 @@ app.post("/send-image", (req, res, next) => {
             };
             console.log('passed upload');
             console.log(lineMessage);
-            await axios.post(`https://api.line.me/v2/bot/message/reply`, lineMessage, {
+            await axios.post(`https://api.line.me/v2/bot/message/push`, lineMessage, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
@@ -96,3 +98,4 @@ app.post("/send-image", (req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
