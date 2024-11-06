@@ -34,6 +34,7 @@ app.post("/send-image", (req, res, next) => {
             const base64Image = imageBuffer.toString("base64");
 
             const lineMessage = {
+                replyToken: replyToken,
                 messages: [
                     {
                         type: "flex",
