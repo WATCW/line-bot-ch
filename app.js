@@ -6,7 +6,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const LINE_CHANNEL_ACCESS_TOKEN = "CoWSxh8X6PKRn5Qw8t7t7oG7PmvjrwP1ZCfx8e9nakQkXsafYH/DG3CV1MZBoM6AmdpK2hrJRrdW5oq3tE9wmHEdBkFfJL53uVQYBMFxCo3FvvNV7I07QrfBM+MxZm5Cx/RBzkWfHNI3FPNBO9TXvgdB04t89/1O/w1cDnyilFU=";  // Set your actual access token here
+const LINE_CHANNEL_ACCESS_TOKEN = "#LINE_CHANNEL_ACCESS_TOKEN#";  // Set your actual access token here
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
