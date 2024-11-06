@@ -71,7 +71,7 @@ app.post("/send-image", (req, res, next) => {
                     }
                 ]
             };
-            alert('passed upload');
+            console.log('passed upload');
             console.log(lineMessage);
             await axios.post(`https://api.line.me/v2/bot/message/reply`, lineMessage, {
                 headers: {
