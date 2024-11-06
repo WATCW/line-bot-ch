@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 const upload = multer({ dest: "uploads/" });
 
 // Upload endpoint
-app.post("/upload", (req, res, next) => {
+app.post("/send-image", (req, res, next) => {
     // Use upload middleware directly in route to check for multer configuration issues
     upload.single("image")(req, res, async (err) => {
         if (err) {
