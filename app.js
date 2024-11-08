@@ -6,8 +6,20 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const LINE_CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;  // Set your actual access token here
+const LINE_CHANNEL_ACCESS_TOKEN = "#LINE_CHANNEL_ACCESS_TOKEN#";  // Set your actual access token here
 
+app.use((req, res, next) => {
+    // Extract host and protocol (http or https) from the request
+    const protocol = req.protocol;
+    const host = req.headers.host;
+    const fullUrl = `${protocol}://${host}`;
+    
+    console.log("Current Host and Port:", fullUrl); // Log current host and port
+    req.currentHost = fullUrl; // Attach it to request if needed later
+  
+    next();
+  });
+  
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
 app.get('/', (req, res) => {
@@ -15,87 +27,106 @@ app.get('/', (req, res) => {
 })
 
 
-// Configure multer for file uploads
-const upload = multer({ dest: "uploads/" });
+// Ensure the uploads directory exists or create it
+const uploadDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
 
-// Upload endpoint
-app.post("/send-image", (req, res, next) => {
-   
-    // Use upload middleware directly in route to check for multer configuration issues
-    upload.single("image")(req, res, async (err) => {
+// Configure multer to store files in the "uploads" directory
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Set the upload directory
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname)); // Set a unique file name
+  },
+});
+const upload = multer({ storage: storage });
+
+// Serve static files from the "uploads" directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Endpoint to upload an image
+app.post("/send-image", (req, res) => {
+
+      upload.single("image")(req, res, async (err) => {
         if (err) {
             return res.status(500).json({ message: "File upload error", error: err.message });
         }
         if (!req.file) {
             return res.status(400).json({ message: "No image file uploaded" });
         }
+  // Construct the URL to access the uploaded image
+  const imageUrl = `${req.currentHost}/uploads/${req.file.filename}`;
+  res.json({
+    message: "Image uploaded successfully!",
+    imageUrl: imageUrl,
+  });
+  console.log(imageUrl)
 
-        try {
+  try {
            
-            const fullPath = path.join(__dirname, 'uploads', req.file.filename);
-
-
-            const lineMessage = {
-                to: "U9422e4a072f0ccf595537299bf39a769",
-                messages: [
-                    {
-                        type: "flex",
-                        altText: "Payment Slip Received",
-                        contents: {
-                            type: "bubble",
-                            hero: {
-                                type: "image",
-                                url: `https://www.linefriends.com/img/img_sec.jpg`,
-                                size: "full",
-                                aspectRatio: "20:13",
-                                aspectMode: "cover",
+    const lineMessage = {
+        to: "U9422e4a072f0ccf595537299bf39a769",
+        messages: [
+            {
+                type: "flex",
+                altText: "Payment Slip Received",
+                contents: {
+                    type: "bubble",
+                    hero: {
+                        type: "image",
+                        url: imageUrl,
+                        size: "full",
+                        aspectRatio: "20:13",
+                        aspectMode: "cover",
+                    },
+                    body: {
+                        type: "box",
+                        layout: "vertical",
+                        contents: [
+                            {
+                                type: "text",
+                                text: "Payment Slip",
+                                weight: "bold",
+                                size: "xl",
+                                align: "center"
                             },
-                            body: {
-                                type: "box",
-                                layout: "vertical",
-                                contents: [
-                                    {
-                                        type: "text",
-                                        text: "Payment Slip",
-                                        weight: "bold",
-                                        size: "xl",
-                                        align: "center"
-                                    },
-                                    {
-                                        type: "text",
-                                        text: "Thank you for your payment!",
-                                        color: "#666666",
-                                        size: "sm",
-                                        align: "center"
-                                    }
-                                ]
+                            {
+                                type: "text",
+                                text: "Thank you for your payment!",
+                                color: "#666666",
+                                size: "sm",
+                                align: "center"
                             }
-                        }
+                        ]
                     }
-                ]
-            };
-            console.log('passed upload');
-            console.log(lineMessage);
-            await axios.post(`https://api.line.me/v2/bot/message/push`, lineMessage, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
-                },
-            });
-
-            res.json({ message: "Payment slip sent successfully to LINE!" });
-        } catch (error) {
-            console.error("Error sending image:", error);
-            res.status(500).json({ message: "Error sending image" });
-        } finally {
-            fs.unlinkSync(req.file.path); // Remove the uploaded file after processing
-        }
+                }
+            }
+        ]
+    };
+    console.log('passed upload');
+    console.log(lineMessage);
+    await axios.post(`https://api.line.me/v2/bot/message/push`, lineMessage, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${LINE_CHANNEL_ACCESS_TOKEN}`,
+        },
     });
-});
 
+    res.json({ message: "Payment slip sent successfully to LINE!" });
+} catch (error) {
+    console.error("Error sending image:", error);
+    res.status(500).json({ message: "Error sending image" });
+} finally {
+    fs.unlinkSync(req.file.path); // Remove the uploaded file after processing
+}
+});
+});
 
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
