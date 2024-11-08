@@ -6,7 +6,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const LINE_CHANNEL_ACCESS_TOKEN = "#LINE_CHANNEL_ACCESS_TOKEN#";  // Set your actual access token here
+const LINE_CHANNEL_ACCESS_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;  // Set your actual access token here
 
 app.use((req, res, next) => {
     // Extract host and protocol (http or https) from the request
