@@ -20,20 +20,21 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use('/uploads', express.static('uploads'))
-// Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "uploads")));
+//app.use(express.static(path.join(__dirname, "uploads")));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + 'public/index.html')
 })
 
 
-// Ensure the uploads directory exists or create it
+// Ensure the upload directory exists or create it
 const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
+
+// Serve static files from the "upload" directory
+app.use("/uploads", express.static(uploadDir));
 
 // Configure multer to store files in the "uploads" directory
 const storage = multer.diskStorage({
@@ -46,9 +47,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-
-// Serve static files from the "uploads" directory
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Endpoint to upload an image
 app.post("/send-image", (req, res) => {
