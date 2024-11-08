@@ -20,9 +20,10 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use(express.static('uploads'))
+aapp.use('/uploads', express.static('uploads'))
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "uploads")));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + 'public/index.html')
 })
