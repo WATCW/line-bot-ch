@@ -6,7 +6,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const LINE_CHANNEL_ACCESS_TOKEN = 'uLSZ0CJ6NiARdRM2bGkHO4plWifMgtNMIN1dDh5I0QwZqrLmJCg6T2tsNphbM3QDmdpK2hrJRrdW5oq3tE9wmHEdBkFfJL53uVQYBMFxCo3zU1OsJ2nUDQz6eb';  // Set your actual access token here
+const LINE_CHANNEL_ACCESS_TOKEN = `uLSZ0CJ6NiARdRM2bGkHO4plWifMgtNMIN1dDh5I0QwZqrLmJCg6T2tsNphbM3QDmdpK2hrJRrdW5oq3tE9wmHEdBkFfJL53uVQYBMFxCo3zU1OsJ2nUDQz6eb`;  // Set your actual access token here
 
 app.use((req, res, next) => {
     // Extract host and protocol (http or https) from the request
